@@ -63,7 +63,7 @@
       <item>
        <layout class="QGridLayout" name="gridLayout">
         <item row="0" column="0">
-         <widget class="QLineEdit" name="lineEdit">
+         <widget class="QLineEdit" name="edit_CurrentTime">
           <property name="maximumSize">
            <size>
             <width>50</width>
@@ -80,7 +80,7 @@
          </widget>
         </item>
         <item row="0" column="2">
-         <widget class="QLineEdit" name="lineEdit_2">
+         <widget class="QLineEdit" name="edit_AllTime">
           <property name="maximumSize">
            <size>
             <width>50</width>
@@ -138,7 +138,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="btn_Previois">
+       <widget class="QPushButton" name="btn_Previous">
         <property name="text">
          <string>Previous</string>
         </property>
@@ -162,13 +162,6 @@
        <widget class="QPushButton" name="btn_Sound">
         <property name="text">
          <string>Sound</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="pushButton_5">
-        <property name="text">
-         <string>PushButton</string>
         </property>
        </widget>
       </item>

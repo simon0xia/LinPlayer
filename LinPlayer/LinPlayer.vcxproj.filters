@@ -33,6 +33,12 @@
       <Extensions>cpp;moc</Extensions>
       <SourceControlFiles>False</SourceControlFiles>
     </Filter>
+    <Filter Include="core">
+      <UniqueIdentifier>{7889cfd4-5021-4cc8-826b-49b6515722da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="common">
+      <UniqueIdentifier>{cfa7ddb0-0614-4d16-bee8-0dad60dd995e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -50,6 +56,12 @@
     <ClCompile Include="GeneratedFiles\qrc_linplayer.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
+    <ClCompile Include="PlayCore.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="Log.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="linplayer.h">
@@ -65,6 +77,12 @@
   <ItemGroup>
     <ClInclude Include="GeneratedFiles\ui_linplayer.h">
       <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayCore.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="Log.h">
+      <Filter>common</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
