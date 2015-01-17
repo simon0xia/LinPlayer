@@ -164,6 +164,7 @@
     <ClCompile Include="linplayer.cpp" />
     <ClCompile Include="Log.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="packet.cpp" />
     <ClCompile Include="PlayCore.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -207,8 +208,10 @@
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="define.h" />
     <ClInclude Include="GeneratedFiles\ui_linplayer.h" />
     <ClInclude Include="Log.h" />
+    <ClInclude Include="packet.h" />
     <ClInclude Include="PlayCore.h" />
   </ItemGroup>
   <ItemGroup>

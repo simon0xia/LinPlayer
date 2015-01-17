@@ -8,7 +8,7 @@ LinPlayer::LinPlayer(QWidget *parent)
 {
 	ui.setupUi(this);
 
-	LogIns.Init("LinPlayer");
+	LogIns.Init("LinPlayer.log");
 	CPlayCore::InitEnv();
 	
 
@@ -32,22 +32,27 @@ LinPlayer::~LinPlayer()
 
 void LinPlayer::ctrl_open(void)
 {
-	QMessageBox::information(this, tr("Systray"),
-		tr("The program will keep running in the "
-		"system tray. To terminate the program, "
-		"choose <b>Quit</b> in the context menu "
-		"of the system tray entry."));
+	ctrl_stop();
+
+	QString filter =tr( "");
+	QString selFilter = tr("视频文件 (*.avi *.h264);;媒体文件（所有文件）(*.*)");
+	strUrl = QFileDialog::getOpenFileName(this, "Select Media File", NULL, selFilter);
+
+	ctrl_play();
 }
 
 void LinPlayer::ctrl_play(void)
 {
-	char *url = "rtsp://218.204.223.237:554/live/1/66251FC11353191F/e7ooqwcfbqjoo80j.sdp";
-	player = new CPlayCore((HWND)ui.graphicsView->winId());
-	player->play(url);
+	if (!strUrl.isEmpty())
+	{
+		player = new CPlayCore((HWND)ui.graphicsView->winId());
+		player->play(strUrl.toStdString().c_str());
+	}
 }
+	
 void LinPlayer::ctrl_stop(void)
 {
-
+	
 }
 void LinPlayer::ctrl_previous(void)
 {

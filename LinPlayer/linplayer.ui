@@ -6,9 +6,21 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>828</width>
-    <height>400</height>
+    <width>600</width>
+    <height>450</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>600</width>
+    <height>450</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>2000</width>
+    <height>1200</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>LinPlayer</string>
@@ -132,6 +144,12 @@
       </item>
       <item>
        <widget class="QPushButton" name="btn_Stop">
+        <property name="maximumSize">
+         <size>
+          <width>60</width>
+          <height>60</height>
+         </size>
+        </property>
         <property name="text">
          <string>Stop</string>
         </property>
@@ -139,6 +157,12 @@
       </item>
       <item>
        <widget class="QPushButton" name="btn_Previous">
+        <property name="maximumSize">
+         <size>
+          <width>60</width>
+          <height>60</height>
+         </size>
+        </property>
         <property name="text">
          <string>Previous</string>
         </property>
@@ -146,6 +170,12 @@
       </item>
       <item>
        <widget class="QPushButton" name="btn_Play">
+        <property name="maximumSize">
+         <size>
+          <width>60</width>
+          <height>60</height>
+         </size>
+        </property>
         <property name="text">
          <string>Play</string>
         </property>
@@ -153,6 +183,12 @@
       </item>
       <item>
        <widget class="QPushButton" name="btn_Next">
+        <property name="maximumSize">
+         <size>
+          <width>60</width>
+          <height>60</height>
+         </size>
+        </property>
         <property name="text">
          <string>Next</string>
         </property>
@@ -160,6 +196,12 @@
       </item>
       <item>
        <widget class="QPushButton" name="btn_Sound">
+        <property name="maximumSize">
+         <size>
+          <width>60</width>
+          <height>60</height>
+         </size>
+        </property>
         <property name="text">
          <string>Sound</string>
         </property>
@@ -167,6 +209,12 @@
       </item>
       <item>
        <widget class="QPushButton" name="btn_Open">
+        <property name="maximumSize">
+         <size>
+          <width>60</width>
+          <height>60</height>
+         </size>
+        </property>
         <property name="text">
          <string>Open</string>
         </property>
@@ -174,6 +222,12 @@
       </item>
       <item>
        <widget class="QPushButton" name="btn_FullScreen">
+        <property name="maximumSize">
+         <size>
+          <width>60</width>
+          <height>60</height>
+         </size>
+        </property>
         <property name="text">
          <string>FullScreen</string>
         </property>

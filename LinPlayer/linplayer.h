@@ -5,6 +5,8 @@
 #include "ui_linplayer.h"
 #include "PlayCore.h"
 
+#include <QFileDialog>
+
 class LinPlayer : public QMainWindow
 {
 	Q_OBJECT
@@ -29,6 +31,7 @@ private slots:
 private:
 	Ui::LinPlayerClass ui;
 	CPlayCore *player;
+	QString strUrl;
 };
 
 #endif // LINPLAYER_H

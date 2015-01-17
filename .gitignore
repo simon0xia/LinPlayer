@@ -26,3 +26,8 @@
 *.exe
 *.out
 *.app
+
+# visual studio temp files
+*.opensdf
+*.sdf
+*.suo
