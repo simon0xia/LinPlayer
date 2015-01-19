@@ -5,7 +5,7 @@
 extern AVPacket flush_pkt;
 
 CPlayCore::CPlayCore(HWND w)
-:wnd(w), bPause(false), bStop(false)
+:wnd(w), bPause(false), bStop(false), bPlaying(false)
 {
 	ic = NULL;
 	pCodecCtx = NULL;
@@ -14,7 +14,6 @@ CPlayCore::CPlayCore(HWND w)
 	screen = NULL;
 	renderer = NULL;
 }
-
 
 CPlayCore::~CPlayCore()
 {
@@ -29,6 +28,8 @@ CPlayCore::~CPlayCore()
 	SDL_DestroyWindow(screen);
 
 	packet_queue_destroy(&videoq);
+
+	SDL_Quit();
 }
 
 int CPlayCore::decode_interrupt_cb(void *ctx)
@@ -128,6 +129,7 @@ int CPlayCore::thread_Read(void)
 			av_free_packet(pkt);
 		}
 	}
+	bPlaying = false;
 	return 1;
 }
 
@@ -163,6 +165,7 @@ int CPlayCore::thread_Display(void)
 	fCount = 0;
 	while (!bStop)
 	{
+		bPlaying = true;	//º‡≤‚–≈∫≈¡ø
 		if (bPause) {
 			SDL_Delay(1000);
 			continue;
@@ -238,6 +241,7 @@ int CPlayCore::thread_Display(void)
 			frame_delay = FFMAX(frame_delay, 10);
 		SDL_Delay(frame_delay);
 	}
+	bPlaying = false;
 	return 1;
 }
 
@@ -321,5 +325,13 @@ int CPlayCore::play(const char *url)
 
 void CPlayCore::stop(void)
 {
-	bStop = true;
+	bStop = !bStop;
+
+	SDL_WaitThread(Read_tid, NULL);
+	SDL_WaitThread(Display_tid, NULL);
+}
+
+void CPlayCore::pause(void)
+{
+	bPause = !bPause;
 }

@@ -2,10 +2,11 @@
 #define LINPLAYER_H
 
 #include <QtWidgets/QMainWindow>
+#include <QFileDialog>
 #include "ui_linplayer.h"
 #include "PlayCore.h"
 
-#include <QFileDialog>
+
 
 class LinPlayer : public QMainWindow
 {
@@ -14,6 +15,8 @@ class LinPlayer : public QMainWindow
 public:
 	LinPlayer(QWidget *parent = 0);
 	~LinPlayer();
+
+	void DisableAllButton(void);
 
 private slots:
 	void ctrl_open(void);

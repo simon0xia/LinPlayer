@@ -2,28 +2,23 @@
 <ui version="4.0">
  <class>LinPlayerClass</class>
  <widget class="QMainWindow" name="LinPlayerClass">
+  <property name="windowModality">
+   <enum>Qt::NonModal</enum>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>600</width>
-    <height>450</height>
+    <width>610</width>
+    <height>459</height>
    </rect>
-  </property>
-  <property name="minimumSize">
-   <size>
-    <width>600</width>
-    <height>450</height>
-   </size>
-  </property>
-  <property name="maximumSize">
-   <size>
-    <width>2000</width>
-    <height>1200</height>
-   </size>
   </property>
   <property name="windowTitle">
    <string>LinPlayer</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="linplayer.qrc">
+    <normaloff>:/LinPlayer/Resources/main.png</normaloff>:/LinPlayer/Resources/main.png</iconset>
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout_2">
@@ -41,14 +36,27 @@
          </size>
         </property>
         <property name="text">
-         <string>unname</string>
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset resource="linplayer.qrc">
+          <normaloff>:/black/Resources/black/reduce.png</normaloff>:/black/Resources/black/reduce.png</iconset>
+        </property>
+        <property name="flat">
+         <bool>true</bool>
         </property>
        </widget>
       </item>
       <item>
        <widget class="QProgressBar" name="progress">
+        <property name="maximumSize">
+         <size>
+          <width>10000</width>
+          <height>10</height>
+         </size>
+        </property>
         <property name="value">
-         <number>24</number>
+         <number>0</number>
         </property>
         <property name="textVisible">
          <bool>false</bool>
@@ -64,7 +72,14 @@
          </size>
         </property>
         <property name="text">
-         <string>unname</string>
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset resource="linplayer.qrc">
+          <normaloff>:/black/Resources/black/boost.png</normaloff>:/black/Resources/black/boost.png</iconset>
+        </property>
+        <property name="flat">
+         <bool>true</bool>
         </property>
        </widget>
       </item>
@@ -72,6 +87,9 @@
     </item>
     <item row="2" column="0">
      <layout class="QHBoxLayout" name="ControlLayout">
+      <property name="spacing">
+       <number>2</number>
+      </property>
       <item>
        <layout class="QGridLayout" name="gridLayout">
         <item row="0" column="0">
@@ -81,6 +99,12 @@
             <width>50</width>
             <height>30</height>
            </size>
+          </property>
+          <property name="frame">
+           <bool>false</bool>
+          </property>
+          <property name="readOnly">
+           <bool>true</bool>
           </property>
          </widget>
         </item>
@@ -99,6 +123,12 @@
             <height>30</height>
            </size>
           </property>
+          <property name="frame">
+           <bool>false</bool>
+          </property>
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
          </widget>
         </item>
         <item row="1" column="0">
@@ -110,7 +140,14 @@
            </size>
           </property>
           <property name="text">
-           <string>List</string>
+           <string/>
+          </property>
+          <property name="icon">
+           <iconset resource="linplayer.qrc">
+            <normaloff>:/black/Resources/black/playlist.png</normaloff>:/black/Resources/black/playlist.png</iconset>
+          </property>
+          <property name="flat">
+           <bool>true</bool>
           </property>
          </widget>
         </item>
@@ -151,7 +188,20 @@
          </size>
         </property>
         <property name="text">
-         <string>Stop</string>
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset resource="linplayer.qrc">
+          <normaloff>:/black/Resources/black/stop.png</normaloff>:/black/Resources/black/stop.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>32</width>
+          <height>32</height>
+         </size>
+        </property>
+        <property name="flat">
+         <bool>true</bool>
         </property>
        </widget>
       </item>
@@ -164,7 +214,20 @@
          </size>
         </property>
         <property name="text">
-         <string>Previous</string>
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset resource="linplayer.qrc">
+          <normaloff>:/black/Resources/black/previous.png</normaloff>:/black/Resources/black/previous.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>32</width>
+          <height>32</height>
+         </size>
+        </property>
+        <property name="flat">
+         <bool>true</bool>
         </property>
        </widget>
       </item>
@@ -177,7 +240,20 @@
          </size>
         </property>
         <property name="text">
-         <string>Play</string>
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset resource="linplayer.qrc">
+          <normaloff>:/black/Resources/black/play.png</normaloff>:/black/Resources/black/play.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>48</width>
+          <height>48</height>
+         </size>
+        </property>
+        <property name="flat">
+         <bool>true</bool>
         </property>
        </widget>
       </item>
@@ -190,7 +266,20 @@
          </size>
         </property>
         <property name="text">
-         <string>Next</string>
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset resource="linplayer.qrc">
+          <normaloff>:/black/Resources/black/next.png</normaloff>:/black/Resources/black/next.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>32</width>
+          <height>32</height>
+         </size>
+        </property>
+        <property name="flat">
+         <bool>true</bool>
         </property>
        </widget>
       </item>
@@ -203,9 +292,45 @@
          </size>
         </property>
         <property name="text">
-         <string>Sound</string>
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset resource="linplayer.qrc">
+          <normaloff>:/black/Resources/black/mute_on.png</normaloff>:/black/Resources/black/mute_on.png</iconset>
+        </property>
+        <property name="flat">
+         <bool>true</bool>
         </property>
        </widget>
+      </item>
+      <item>
+       <widget class="QProgressBar" name="pro_vol">
+        <property name="maximumSize">
+         <size>
+          <width>10000</width>
+          <height>10</height>
+         </size>
+        </property>
+        <property name="value">
+         <number>0</number>
+        </property>
+        <property name="textVisible">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer_3">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>13</width>
+          <height>17</height>
+         </size>
+        </property>
+       </spacer>
       </item>
       <item>
        <widget class="QPushButton" name="btn_Open">
@@ -216,7 +341,14 @@
          </size>
         </property>
         <property name="text">
-         <string>Open</string>
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset resource="linplayer.qrc">
+          <normaloff>:/black/Resources/black/open.png</normaloff>:/black/Resources/black/open.png</iconset>
+        </property>
+        <property name="flat">
+         <bool>true</bool>
         </property>
        </widget>
       </item>
@@ -229,7 +361,14 @@
          </size>
         </property>
         <property name="text">
-         <string>FullScreen</string>
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset resource="linplayer.qrc">
+          <normaloff>:/black/Resources/black/fullscreen.png</normaloff>:/black/Resources/black/fullscreen.png</iconset>
+        </property>
+        <property name="flat">
+         <bool>true</bool>
         </property>
        </widget>
       </item>

@@ -24,14 +24,16 @@ public:
 	int thread_Display(void);
 
 	void RecordError(const char *MediaName, const char *action, int error /* = 0 */);
+	bool isPlaying(void)	{return bPlaying; }
+	bool isPause(void)	{return bPause; }
 
 	int play(const char *url);
+	void pause(void);
 	void stop(void);
 
 private:
 	HWND wnd;
-	bool bPause;
-	bool bStop;
+	bool bPause,bStop,bPlaying;
 
 	SDL_Thread *Read_tid, *Display_tid;
 	SDL_cond *continue_read_thread;
