@@ -13,6 +13,9 @@ CPlayCore::CPlayCore(HWND w)
 	packet = NULL;
 	screen = NULL;
 	renderer = NULL;
+
+	video_disable = audio_disable = false;
+	subtitle_disable = true;
 }
 
 CPlayCore::~CPlayCore()
@@ -59,6 +62,7 @@ int CPlayCore::InitEnv(void)
 
 	signal(SIGINT, sigterm_handler); /* Interrupt (ANSI).    */
 	signal(SIGTERM, sigterm_handler); /* Termination (ANSI).  */
+
 	return 0;
 }
 
@@ -91,41 +95,47 @@ int CPlayCore::thread_Read(void)
 // 		}
 
 		// if the queue are full, no need to read more 
-		if (videoq.size > MAX_QUEUE_SIZE
-			|| (videoq.nb_packets > MIN_FRAMES || video_stream < 0 || videoq.abort_request
-			|| (video_st->disposition & AV_DISPOSITION_ATTACHED_PIC))) {
+		if (videoq.size + audioq.size + subtitleq.size > MAX_QUEUE_SIZE
+			|| ((videoq.nb_packets > MIN_FRAMES || video_stream < 0 || videoq.abort_request
+					|| (video_st->disposition & AV_DISPOSITION_ATTACHED_PIC))
+				&& (audioq.nb_packets > MIN_FRAMES || audio_stream < 0 || audioq.abort_request)
+				&& (subtitleq.nb_packets > MIN_FRAMES || subtitle_stream < 0 || subtitleq.abort_request))){
 			// wait 10 ms 
 			SDL_LockMutex(wait_mutex);
 			SDL_CondWaitTimeout(continue_read_thread, wait_mutex, 10);
 			SDL_UnlockMutex(wait_mutex);
 			continue;
 		}
-		if (eof) {
-			if (video_stream >= 0){
-				packet_queue_put_nullpacket(&videoq, video_stream);
-				packet_queue_abort(&videoq);
-			}
-			SDL_Delay(10);
-			eof = 0;
-			continue;
-		}
 		ret = av_read_frame(ic, pkt);
 		if (ret < 0) {
-			if (ret == AVERROR_EOF || avio_feof(ic->pb))
+			if (ret == AVERROR_EOF || avio_feof(ic->pb) && !eof){
+				if (video_stream >= 0)
+					packet_queue_put_nullpacket(&videoq, video_stream);
+				if (audio_stream >= 0)
+					packet_queue_put_nullpacket(&audioq, audio_stream);
+				if (subtitle_stream >= 0)
+					packet_queue_put_nullpacket(&subtitleq, subtitle_stream);
 				eof = 1;
+			}
 			if (ic->pb && ic->pb->error)
 				break;
 			SDL_LockMutex(wait_mutex);
 			SDL_CondWaitTimeout(continue_read_thread, wait_mutex, 10);
 			SDL_UnlockMutex(wait_mutex);
 			continue;
+		} else {
+			eof = 0;
 		}
-		// check if packet is in play range specified by user, then queue, otherwise discard 
+		
 		if (pkt->stream_index == video_stream
-			&& !(video_st->disposition & AV_DISPOSITION_ATTACHED_PIC)) {
+				&& !(video_st->disposition & AV_DISPOSITION_ATTACHED_PIC)) {
 			packet_queue_put(&videoq, pkt);
-		}
-		else {
+		} else if (pkt->stream_index == audio_stream) {
+			packet_queue_put(&audioq, pkt);
+		} else if (pkt->stream_index == subtitle_stream) {
+			//packet_queue_put(&subtitleq, pkt);		//暂不处理subtitle
+			av_free_packet(pkt);
+		} else {
 			av_free_packet(pkt);
 		}
 	}
@@ -155,10 +165,10 @@ int CPlayCore::thread_Display(void)
 	double basicDelay = av_q2d(pCodecCtx->time_base) * pCodecCtx->ticks_per_frame;
 
 	//注意：因为out_buffer会组合到pFrameYUV中，释放pFrameYUV会连带释放！！后面若单独释放可能会出错。
-	out_buffer = (uint8_t *)av_malloc(avpicture_get_size(PIX_FMT_YUV420P, pCodecCtx->width, pCodecCtx->height));
-	avpicture_fill((AVPicture *)pFrameYUV, out_buffer, PIX_FMT_YUV420P, pCodecCtx->width, pCodecCtx->height);
+	out_buffer = (uint8_t *)av_malloc(avpicture_get_size(AV_PIX_FMT_YUV420P, pCodecCtx->width, pCodecCtx->height));
+	avpicture_fill((AVPicture *)pFrameYUV, out_buffer, AV_PIX_FMT_YUV420P, pCodecCtx->width, pCodecCtx->height);
 	sdlTexture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_IYUV, SDL_TEXTUREACCESS_STREAMING, pCodecCtx->width, pCodecCtx->height);
-	img_convert_ctx = sws_getContext(pCodecCtx->width, pCodecCtx->height, pCodecCtx->pix_fmt, pCodecCtx->width, pCodecCtx->height, PIX_FMT_YUV420P, SWS_POINT, NULL, NULL, NULL);
+	img_convert_ctx = sws_getContext(pCodecCtx->width, pCodecCtx->height, pCodecCtx->pix_fmt, pCodecCtx->width, pCodecCtx->height, AV_PIX_FMT_YUV420P, SWS_POINT, NULL, NULL, NULL);
 
 	INT64 drift, NextPts, PrePts, Delay;
 	NextPts = PrePts = video_st->start_time;
@@ -245,12 +255,87 @@ int CPlayCore::thread_Display(void)
 	return 1;
 }
 
-int CPlayCore::play(const char *url)
+int CPlayCore::beginEvent(void *ptr)
+{
+	return 0;
+	CPlayCore *p = (CPlayCore *)ptr;
+	p->thread_Event();
+	return 0;
+}
+
+int CPlayCore::thread_Event(void)
+{
+	SDL_Event event;
+	double remaining_time = 0.0;
+	while (bStop)
+	{
+		SDL_PumpEvents();
+		while (!SDL_PeepEvents(&event, 1, SDL_GETEVENT, SDL_FIRSTEVENT, SDL_LASTEVENT)) {
+// 			if (!cursor_hidden && av_gettime_relative() - cursor_last_shown > CURSOR_HIDE_DELAY) {
+// 				SDL_ShowCursor(0);
+// 				cursor_hidden = 1;
+// 			}
+			if (remaining_time > 0.0)
+				av_usleep((int64_t)(remaining_time * 1000000.0));
+			remaining_time = REFRESH_RATE;
+			if (!bPause)
+				video_refresh(&remaining_time);
+			SDL_PumpEvents();
+		}
+	}
+	return 1;
+}
+
+void CPlayCore::video_refresh(double *remaining_time)
+{
+	UNREFERENCED_PARAMETER(remaining_time);
+
+}
+
+int CPlayCore::stream_video_open()
 {
 	AVCodec *pCodec;
 	int res;
-	int st_index[AVMEDIA_TYPE_NB];
+
+	packet_queue_start(&videoq);
+
+	video_st = ic->streams[video_stream];
+	pCodecCtx = video_st->codec;
+	pCodec = avcodec_find_decoder(pCodecCtx->codec_id);
+	if (pCodec == NULL) {
+		RecordError("NormalMedia", "avcodec_find_decoder");
+		return -1;
+	}
+
+	res = avcodec_open2(pCodecCtx, pCodec, NULL);
+	if (res < 0)    {
+		RecordError("NormalMedia", "avcodec_open2", res);
+		return -1;
+	}
+
+	return 0;
+}
+
+int CPlayCore::stream_audio_open()
+{
+	packet_queue_start(&audioq);
+
+	audio_st = ic->streams[audio_stream];
+
+	return 0;
+}
+
+int CPlayCore::stream_subtitle_open()
+{
+	packet_queue_start(&subtitleq);
 	
+	return 0;
+}
+
+int CPlayCore::play(const char *url)
+{	
+	int res;
+
 	screen = SDL_CreateWindowFrom(wnd);
 	if (screen == 0){
 		LogIns.FlashLog("SDL_CreateWindow - exiting:%s\n", SDL_GetError());
@@ -262,6 +347,14 @@ int CPlayCore::play(const char *url)
 		LogIns.FlashLog("SDL_CreateRenderer - exiting:%s\n", SDL_GetError());
 		return -1;
 	}
+
+	//为简化后续的处理，无论当前文件含有几种流，均初始化全部的队列。
+	packet_queue_init(&audioq);
+	packet_queue_init(&videoq);
+	packet_queue_init(&subtitleq);
+
+	av_init_packet(&flush_pkt);
+	flush_pkt.data = (uint8_t *)&flush_pkt;
 
 	ic = avformat_alloc_context();
 	ic->interrupt_callback.callback = decode_interrupt_cb;
@@ -279,53 +372,53 @@ int CPlayCore::play(const char *url)
 		RecordError("NormalMedia", "avformat_find_stream_info", res);
 		return -1;
 	}
+	if (ic->pb)
+		ic->pb->eof_reached = 0; // FIXME hack, ffplay maybe should not use avio_feof() to test for the end
 
-	memset(st_index, -1, sizeof(st_index));
-	st_index[AVMEDIA_TYPE_VIDEO] = av_find_best_stream(ic, AVMEDIA_TYPE_VIDEO, -1, -1, NULL, 0);
-	st_index[AVMEDIA_TYPE_AUDIO] = av_find_best_stream(ic, AVMEDIA_TYPE_AUDIO, -1, st_index[AVMEDIA_TYPE_VIDEO], NULL, 0);
-
-	if (st_index[AVMEDIA_TYPE_VIDEO] < 0){
-		RecordError("NormalMedia", "avformat_find_stream_info", res);
-		RaiseException(0xE0000001, 0, 0, 0);
-	}
-	video_stream = st_index[AVMEDIA_TYPE_VIDEO];
-	video_st = ic->streams[video_stream];
-
-	if (st_index[AVMEDIA_TYPE_AUDIO] < 0){
-		RecordError("NormalMedia", "avformat_find_stream_info", res);
-		//允许播放无音频文件，但写入日志。
-	} else {
-		audio_stream = st_index[AVMEDIA_TYPE_AUDIO];
-		audio_st = ic->streams[audio_stream];
+	video_stream = audio_stream = subtitle_stream = -1;
+	if (!video_disable) {
+		video_stream = av_find_best_stream(ic, AVMEDIA_TYPE_VIDEO, -1, -1, NULL, 0);
+		if (video_stream < 0){
+			RecordError("NormalMedia", "avformat_find_stream_info", res);
+			RaiseException(0xE0000001, 0, 0, 0);
+		} else {
+			stream_video_open();
+		}
 	}
 
-	pCodecCtx = video_st->codec;
-	pCodec = avcodec_find_decoder(pCodecCtx->codec_id);
-	if (pCodec == NULL) {
-		RecordError("NormalMedia", "avcodec_find_decoder");
+	if (!audio_disable) {
+		audio_stream = av_find_best_stream(ic, AVMEDIA_TYPE_AUDIO, -1, video_stream, NULL, 0);
+		if (audio_stream > 0){
+			stream_audio_open();
+		}
+	}
+
+	if (!video_disable && !subtitle_disable) {
+		subtitle_stream = av_find_best_stream(ic, AVMEDIA_TYPE_SUBTITLE, -1,
+										(audio_stream >= 0 ? audio_stream : video_stream), NULL, 0);
+		if (subtitle_stream > 0) {
+			stream_subtitle_open();
+		}
+	}
+
+	if (video_stream < 0 && audio_stream < 0)
+	{
+		RecordError("NormalMedia", "Could not find any valid-stream.");
 		return -1;
 	}
-
-	res = avcodec_open2(pCodecCtx, pCodec, NULL);
-	if (res < 0)    {
-		RecordError("NormalMedia", "avcodec_open2", res);
-		return -1;
-	}
-
-	packet_queue_init(&videoq);
-	packet_queue_start(&videoq);
 
 	continue_read_thread = SDL_CreateCond();
 
 	Read_tid = SDL_CreateThread(beginRead, "ReadThread", this);
 	Display_tid = SDL_CreateThread(beginDisplay, "DispalyThread", this);
-
+	Event_tid = SDL_CreateThread(beginEvent, "EventThread", this);
 	return 1;
 }
 
 void CPlayCore::stop(void)
 {
 	bStop = !bStop;
+	bPause = false;
 
 	SDL_WaitThread(Read_tid, NULL);
 	SDL_WaitThread(Display_tid, NULL);
@@ -333,5 +426,14 @@ void CPlayCore::stop(void)
 
 void CPlayCore::pause(void)
 {
-	bPause = !bPause;
+	if (bPause)
+	{
+		bPause = false;
+		av_read_play(ic);
+	}
+	else
+	{
+		bPause = true;
+		av_read_pause(ic);
+	}
 }

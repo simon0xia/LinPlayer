@@ -20,6 +20,9 @@
    <iconset resource="linplayer.qrc">
     <normaloff>:/LinPlayer/Resources/main.png</normaloff>:/LinPlayer/Resources/main.png</iconset>
   </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: rgb(0, 8, 3);</string>
+  </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout_2">
     <item row="0" column="0">
@@ -29,18 +32,38 @@
      <layout class="QHBoxLayout" name="ProgressLayout">
       <item>
        <widget class="QPushButton" name="btn_unname">
-        <property name="maximumSize">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
          <size>
-          <width>20</width>
-          <height>30</height>
+          <width>16</width>
+          <height>16</height>
          </size>
         </property>
-        <property name="text">
-         <string/>
+        <property name="maximumSize">
+         <size>
+          <width>16</width>
+          <height>16</height>
+         </size>
         </property>
-        <property name="icon">
-         <iconset resource="linplayer.qrc">
-          <normaloff>:/black/Resources/black/reduce.png</normaloff>:/black/Resources/black/reduce.png</iconset>
+        <property name="styleSheet">
+         <string notr="true">QPushButton{
+    border:none;
+    border-image: url(:/LinPlayer/Resources/button.png)0 512 192 256;
+}
+QPushButton:hover{
+   border-image: url(:/LinPlayer/Resources/button.png)64 512 128 256;
+}
+QPushButton:pressed{
+   border-image: url(:/LinPlayer/Resources/button.png)128 512 64 256;
+}
+QPushButton:disabled{
+   border-image: url(:/LinPlayer/Resources/button.png)192 512 0 256;
+}</string>
         </property>
         <property name="flat">
          <bool>true</bool>
@@ -65,18 +88,38 @@
       </item>
       <item>
        <widget class="QPushButton" name="btn_unname_2">
-        <property name="maximumSize">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
          <size>
-          <width>20</width>
-          <height>30</height>
+          <width>16</width>
+          <height>16</height>
          </size>
         </property>
-        <property name="text">
-         <string/>
+        <property name="maximumSize">
+         <size>
+          <width>16</width>
+          <height>16</height>
+         </size>
         </property>
-        <property name="icon">
-         <iconset resource="linplayer.qrc">
-          <normaloff>:/black/Resources/black/boost.png</normaloff>:/black/Resources/black/boost.png</iconset>
+        <property name="styleSheet">
+         <string notr="true">QPushButton{
+    border:none;
+    border-image: url(:/LinPlayer/Resources/button.png)0 576 192 192;
+}
+QPushButton:hover{
+   border-image: url(:/LinPlayer/Resources/button.png)64 576 128 192;
+}
+QPushButton:pressed{
+   border-image: url(:/LinPlayer/Resources/button.png)128 576 64 192;
+}
+QPushButton:disabled{
+   border-image: url(:/LinPlayer/Resources/button.png)192 576 0 192;
+}</string>
         </property>
         <property name="flat">
          <bool>true</bool>
@@ -133,18 +176,38 @@
         </item>
         <item row="1" column="0">
          <widget class="QPushButton" name="btn_List">
-          <property name="maximumSize">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
            <size>
-            <width>50</width>
-            <height>30</height>
+            <width>24</width>
+            <height>24</height>
            </size>
           </property>
-          <property name="text">
-           <string/>
+          <property name="maximumSize">
+           <size>
+            <width>24</width>
+            <height>24</height>
+           </size>
           </property>
-          <property name="icon">
-           <iconset resource="linplayer.qrc">
-            <normaloff>:/black/Resources/black/playlist.png</normaloff>:/black/Resources/black/playlist.png</iconset>
+          <property name="styleSheet">
+           <string notr="true">QPushButton{
+    border:none;
+    border-image: url(:/LinPlayer/Resources/button.png) 0 0 192 768;
+}
+QPushButton:hover{
+   border-image: url(:/LinPlayer/Resources/button.png)64 0 128 768;
+}
+QPushButton:pressed{
+   border-image: url(:/LinPlayer/Resources/button.png)128 0 64 768;
+}
+QPushButton:disabled{
+   border-image: url(:/LinPlayer/Resources/button.png)192 0 0 768;
+}</string>
           </property>
           <property name="flat">
            <bool>true</bool>
@@ -181,24 +244,33 @@
       </item>
       <item>
        <widget class="QPushButton" name="btn_Stop">
-        <property name="maximumSize">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
          <size>
-          <width>60</width>
-          <height>60</height>
+          <width>36</width>
+          <height>36</height>
          </size>
         </property>
-        <property name="text">
-         <string/>
-        </property>
-        <property name="icon">
-         <iconset resource="linplayer.qrc">
-          <normaloff>:/black/Resources/black/stop.png</normaloff>:/black/Resources/black/stop.png</iconset>
-        </property>
-        <property name="iconSize">
-         <size>
-          <width>32</width>
-          <height>32</height>
-         </size>
+        <property name="styleSheet">
+         <string notr="true">QPushButton{
+    border:none;
+    border-image: url(:/LinPlayer/Resources/button.png) 0 640 192 128;
+}
+QPushButton:hover{
+   border-image: url(:/LinPlayer/Resources/button.png) 64 640 128 128;
+}
+QPushButton:pressed{
+   border-image: url(:/LinPlayer/Resources/button.png) 128 640 64 128;
+}
+QPushButton:disabled{
+   border-image: url(:/LinPlayer/Resources/button.png) 192 640 0 128;
+}
+</string>
         </property>
         <property name="flat">
          <bool>true</bool>
@@ -207,24 +279,32 @@
       </item>
       <item>
        <widget class="QPushButton" name="btn_Previous">
-        <property name="maximumSize">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
          <size>
-          <width>60</width>
-          <height>60</height>
+          <width>36</width>
+          <height>36</height>
          </size>
         </property>
-        <property name="text">
-         <string/>
-        </property>
-        <property name="icon">
-         <iconset resource="linplayer.qrc">
-          <normaloff>:/black/Resources/black/previous.png</normaloff>:/black/Resources/black/previous.png</iconset>
-        </property>
-        <property name="iconSize">
-         <size>
-          <width>32</width>
-          <height>32</height>
-         </size>
+        <property name="styleSheet">
+         <string notr="true">QPushButton{
+    border:none;
+    border-image: url(:/LinPlayer/Resources/button.png)0 384 192 384;
+}
+QPushButton:hover{
+   border-image: url(:/LinPlayer/Resources/button.png) 64 384 128 384;
+}
+QPushButton:pressed{
+   border-image: url(:/LinPlayer/Resources/button.png) 128 384 64 384;
+}
+QPushButton:disabled{
+   border-image: url(:/LinPlayer/Resources/button.png) 192 384 0 384;
+}</string>
         </property>
         <property name="flat">
          <bool>true</bool>
@@ -233,24 +313,32 @@
       </item>
       <item>
        <widget class="QPushButton" name="btn_Play">
-        <property name="maximumSize">
-         <size>
-          <width>60</width>
-          <height>60</height>
-         </size>
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
         </property>
-        <property name="text">
-         <string/>
-        </property>
-        <property name="icon">
-         <iconset resource="linplayer.qrc">
-          <normaloff>:/black/Resources/black/play.png</normaloff>:/black/Resources/black/play.png</iconset>
-        </property>
-        <property name="iconSize">
+        <property name="minimumSize">
          <size>
           <width>48</width>
           <height>48</height>
          </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton{
+    border:none;
+    border-image: url(:/LinPlayer/Resources/button.png)0 768 192 0;
+}
+QPushButton:hover{
+   border-image: url(:/LinPlayer/Resources/button.png) 64 768 128 0;
+}
+QPushButton:pressed{
+   border-image: url(:/LinPlayer/Resources/button.png) 128 768 64 0;
+}
+QPushButton:disabled{
+   border-image: url(:/LinPlayer/Resources/button.png) 192 768 0 0;
+}</string>
         </property>
         <property name="flat">
          <bool>true</bool>
@@ -259,24 +347,32 @@
       </item>
       <item>
        <widget class="QPushButton" name="btn_Next">
-        <property name="maximumSize">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
          <size>
-          <width>60</width>
-          <height>60</height>
+          <width>36</width>
+          <height>36</height>
          </size>
         </property>
-        <property name="text">
-         <string/>
-        </property>
-        <property name="icon">
-         <iconset resource="linplayer.qrc">
-          <normaloff>:/black/Resources/black/next.png</normaloff>:/black/Resources/black/next.png</iconset>
-        </property>
-        <property name="iconSize">
-         <size>
-          <width>32</width>
-          <height>32</height>
-         </size>
+        <property name="styleSheet">
+         <string notr="true">QPushButton{
+    border:none;
+    border-image: url(:/LinPlayer/Resources/button.png)0 448 192 320;
+}
+QPushButton:hover{
+   border-image: url(:/LinPlayer/Resources/button.png) 64 448 128 320;
+}
+QPushButton:pressed{
+   border-image: url(:/LinPlayer/Resources/button.png) 128 448 64 320;
+}
+QPushButton:disabled{
+   border-image: url(:/LinPlayer/Resources/button.png) 192 448 0 320;
+}</string>
         </property>
         <property name="flat">
          <bool>true</bool>
@@ -285,18 +381,38 @@
       </item>
       <item>
        <widget class="QPushButton" name="btn_Sound">
-        <property name="maximumSize">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
          <size>
-          <width>60</width>
-          <height>60</height>
+          <width>16</width>
+          <height>16</height>
          </size>
         </property>
-        <property name="text">
-         <string/>
+        <property name="maximumSize">
+         <size>
+          <width>16</width>
+          <height>16</height>
+         </size>
         </property>
-        <property name="icon">
-         <iconset resource="linplayer.qrc">
-          <normaloff>:/black/Resources/black/mute_on.png</normaloff>:/black/Resources/black/mute_on.png</iconset>
+        <property name="styleSheet">
+         <string notr="true">QPushButton{
+    border:none;
+    border-image: url(:/LinPlayer/Resources/button.png)0 256 192 512;
+}
+QPushButton:hover{
+   border-image: url(:/LinPlayer/Resources/button.png) 64 256 128 512;
+}
+QPushButton:pressed{
+   border-image: url(:/LinPlayer/Resources/button.png) 128 256 64 512;
+}
+QPushButton:disabled{
+   border-image: url(:/LinPlayer/Resources/button.png) 192 256 0 512;
+}</string>
         </property>
         <property name="flat">
          <bool>true</bool>
@@ -304,18 +420,15 @@
        </widget>
       </item>
       <item>
-       <widget class="QProgressBar" name="pro_vol">
-        <property name="maximumSize">
-         <size>
-          <width>10000</width>
-          <height>10</height>
-         </size>
+       <widget class="QSlider" name="slider_vol">
+        <property name="maximum">
+         <number>100</number>
         </property>
         <property name="value">
-         <number>0</number>
+         <number>50</number>
         </property>
-        <property name="textVisible">
-         <bool>false</bool>
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
         </property>
        </widget>
       </item>
@@ -334,18 +447,32 @@
       </item>
       <item>
        <widget class="QPushButton" name="btn_Open">
-        <property name="maximumSize">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
          <size>
-          <width>60</width>
-          <height>60</height>
+          <width>24</width>
+          <height>24</height>
          </size>
         </property>
-        <property name="text">
-         <string/>
-        </property>
-        <property name="icon">
-         <iconset resource="linplayer.qrc">
-          <normaloff>:/black/Resources/black/open.png</normaloff>:/black/Resources/black/open.png</iconset>
+        <property name="styleSheet">
+         <string notr="true">QPushButton{
+    border:none;
+    border-image: url(:/LinPlayer/Resources/button.png)0 64 192 704;
+}
+QPushButton:hover{
+   border-image: url(:/LinPlayer/Resources/button.png)64 64 128 704;
+}
+QPushButton:pressed{
+   border-image: url(:/LinPlayer/Resources/button.png) 128 64 64 704;
+}
+QPushButton:disabled{
+   border-image: url(:/LinPlayer/Resources/button.png) 192 64 0 704;
+}</string>
         </property>
         <property name="flat">
          <bool>true</bool>
@@ -354,18 +481,35 @@
       </item>
       <item>
        <widget class="QPushButton" name="btn_FullScreen">
-        <property name="maximumSize">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
          <size>
-          <width>60</width>
-          <height>60</height>
+          <width>24</width>
+          <height>24</height>
          </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton{
+    border:none;
+    border-image: url(:/LinPlayer/Resources/button.png)0 128 192 640;
+}
+QPushButton:hover{
+   border-image: url(:/LinPlayer/Resources/button.png)64 128 128 640;
+}
+QPushButton:pressed{
+   border-image: url(:/LinPlayer/Resources/button.png)128 128 64 640;
+}
+QPushButton:disabled{
+   border-image: url(:/LinPlayer/Resources/button.png)192 128 0 640;
+}</string>
         </property>
         <property name="text">
          <string/>
-        </property>
-        <property name="icon">
-         <iconset resource="linplayer.qrc">
-          <normaloff>:/black/Resources/black/fullscreen.png</normaloff>:/black/Resources/black/fullscreen.png</iconset>
         </property>
         <property name="flat">
          <bool>true</bool>

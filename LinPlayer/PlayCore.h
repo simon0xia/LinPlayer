@@ -19,9 +19,17 @@ public:
 
 	static int beginRead(void *ptr);
 	static int beginDisplay(void *ptr);
+	static int beginEvent(void *ptr);
 
 	int thread_Read(void);
 	int thread_Display(void);
+	int thread_Event(void);
+
+	void video_refresh(double *remaining_time);
+
+	int stream_video_open();
+	int stream_audio_open();
+	int stream_subtitle_open();
 
 	void RecordError(const char *MediaName, const char *action, int error /* = 0 */);
 	bool isPlaying(void)	{return bPlaying; }
@@ -34,8 +42,9 @@ public:
 private:
 	HWND wnd;
 	bool bPause,bStop,bPlaying;
+	bool video_disable, audio_disable, subtitle_disable;
 
-	SDL_Thread *Read_tid, *Display_tid;
+	SDL_Thread *Read_tid, *Display_tid, *Event_tid;
 	SDL_cond *continue_read_thread;
 
 	AVFormatContext *ic;
@@ -46,11 +55,8 @@ private:
 	SDL_Window *screen;
 	SDL_Renderer *renderer;
 	
-	int video_stream;
-	AVStream *video_st;
-	PacketQueue videoq;
-
-	int audio_stream;
-	AVStream *audio_st;
+	int video_stream, audio_stream, subtitle_stream;
+	AVStream *video_st,*audio_st;
+	PacketQueue videoq, audioq, subtitleq;
 };
 

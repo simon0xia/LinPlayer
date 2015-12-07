@@ -6,6 +6,7 @@ extern "C"
 {
 #include "libavcodec/avcodec.h"
 #include "libavutil/avutil.h"
+#include "libavutil/time.h"
 #include "libavformat/avformat.h"
 #include "libswscale/swscale.h"
 }
@@ -17,6 +18,9 @@ extern "C"
 #define MAX_QUEUE_SIZE (15 * 1024 * 1024)
 #define MIN_FRAMES 5
 #define AV_DISPOSITION_ATTACHED_PIC 0x0400
+
+/* polls for possible required screen refresh at least this often, should be less than 1/fps */
+#define REFRESH_RATE 0.01
 
 typedef struct MyAVPacketList {
 	AVPacket pkt;

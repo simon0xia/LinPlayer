@@ -10,6 +10,10 @@ LinPlayer::LinPlayer(QWidget *parent)
 
 	LogIns.Init("LinPlayer.log");
 	CPlayCore::InitEnv();
+
+	ui.btn_Stop->setDisabled(true);
+	ui.btn_Previous->setDisabled(true);
+	ui.btn_Next->setDisabled(true);
 	
 	connect(ui.btn_Open, SIGNAL(clicked()), this, SLOT(ctrl_open()));
 
@@ -22,8 +26,6 @@ LinPlayer::LinPlayer(QWidget *parent)
 	connect(ui.btn_FullScreen, SIGNAL(clicked()), this, SLOT(ctrl_fullscreen()));
 
 	connect(ui.btn_Sound, SIGNAL(clicked()), this, SLOT(ctrl_sound()));
-
-	ui.btn_Stop->setDisabled(true);
 }
 
 LinPlayer::~LinPlayer()
@@ -57,21 +59,35 @@ void LinPlayer::ctrl_open(void)
 
 void LinPlayer::ctrl_play(void)
 {
-	if (player != NULL && player->isPlaying())
+	if (player != nullptr && player->isPlaying())
 	{
 		player->pause();
+		setStyleSheet_btn_play();
 		return;
 	}
-	
+
 	if (!strUrl.isEmpty())
 	{
 		player = new CPlayCore((HWND)ui.graphicsView->winId());
 		player->play(strUrl.toStdString().c_str());
 
+		setStyleSheet_btn_play();
 		ui.btn_Stop->setDisabled(false);
 	}
 }
 	
+void LinPlayer::setStyleSheet_btn_play()
+{
+	if (player->isPause())
+	{
+		ui.btn_Play->setStyleSheet("QPushButton{\n    border:none;\n    border-image: url(:/LinPlayer/Resources/button.png)0 704 192 64;\n}\nQPushButton:hover{\n   border-image: url(:/LinPlayer/Resources/button.png) 64 704 128 64;\n}\nQPushButton:pressed{\n   border-image: url(:/LinPlayer/Resources/button.png) 128 704 64 64;\n}\nQPushButton:disabled{\n   border-image: url(:/LinPlayer/Resources/button.png) 192 704 0 64;\n}");
+	}
+	else
+	{
+		ui.btn_Play->setStyleSheet("QPushButton{\n    border:none;\n    border-image: url(:/LinPlayer/Resources/button.png)0 768 192 0;\n}\nQPushButton:hover{\n   border-image: url(:/LinPlayer/Resources/button.png) 64 768 128 0;\n}\nQPushButton:pressed{\n   border-image: url(:/LinPlayer/Resources/button.png) 128 768 64 0;\n}\nQPushButton:disabled{\n   border-image: url(:/LinPlayer/Resources/button.png) 192 768 0 0;\n}");
+	}
+}
+
 void LinPlayer::ctrl_stop(void)
 {
 	if (player != NULL)

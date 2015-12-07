@@ -1,20 +1,6 @@
 <RCC>
-  <qresource prefix="LinPlayer">
-    <file>Resources/main.png</file>
-  </qresource>
-  <qresource prefix="black">
-    <file>Resources/black/fullscreen.png</file>
-    <file>Resources/black/open.png</file>
-    <file>Resources/black/playlist.png</file>
-    <file>Resources/black/boost.png</file>
-    <file>Resources/black/mute_off.png</file>
-    <file>Resources/black/mute_on.png</file>
-    <file>Resources/black/next.png</file>
-    <file>Resources/black/pause.png</file>
-    <file>Resources/black/play.png</file>
-    <file>Resources/black/previous.png</file>
-    <file>Resources/black/reduce.png</file>
-    <file>Resources/black/retry.png</file>
-    <file>Resources/black/stop.png</file>
-  </qresource>
+    <qresource prefix="/LinPlayer">
+        <file>Resources/main.png</file>
+        <file>Resources/button.png</file>
+    </qresource>
 </RCC>

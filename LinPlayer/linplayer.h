@@ -22,6 +22,9 @@ private slots:
 	void ctrl_open(void);
 
 	void ctrl_play(void);
+
+	void setStyleSheet_btn_play();
+
 	void ctrl_stop(void);
 	void ctrl_previous(void);
 	void ctrl_next(void);
