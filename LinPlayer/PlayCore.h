@@ -32,8 +32,11 @@ public:
 	int stream_subtitle_open();
 
 	void RecordError(const char *MediaName, const char *action, int error /* = 0 */);
-	bool isPlaying(void)	{return bPlaying; }
-	bool isPause(void)	{return bPause; }
+	bool isPlaying(void) const {return bPlaying; }
+	bool isPause(void) const {return bPause; }
+	bool isMute(void) const { return bMute; }
+
+	int setMute(bool Mute);
 
 	int play(const char *url);
 	void pause(void);
@@ -41,7 +44,7 @@ public:
 
 private:
 	HWND wnd;
-	bool bPause,bStop,bPlaying;
+	bool bPause,bStop,bPlaying, bMute;
 	bool video_disable, audio_disable, subtitle_disable;
 
 	SDL_Thread *Read_tid, *Display_tid, *Event_tid;

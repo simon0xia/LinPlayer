@@ -31,8 +31,10 @@ CPlayCore::~CPlayCore()
 	SDL_DestroyWindow(screen);
 
 	packet_queue_destroy(&videoq);
+	packet_queue_destroy(&audioq);
+	packet_queue_destroy(&subtitleq);
 
-	SDL_Quit();
+	//SDL_Quit();
 }
 
 int CPlayCore::decode_interrupt_cb(void *ctx)
@@ -82,6 +84,8 @@ int CPlayCore::beginRead(void *ptr)
 
 int CPlayCore::thread_Read(void)
 {
+	printf(__FUNCTION__);
+
 	SDL_mutex *wait_mutex = NULL;
 	int ret = 0;
 	int eof = 0;
@@ -133,8 +137,7 @@ int CPlayCore::thread_Read(void)
 		} else if (pkt->stream_index == audio_stream) {
 			packet_queue_put(&audioq, pkt);
 		} else if (pkt->stream_index == subtitle_stream) {
-			//packet_queue_put(&subtitleq, pkt);		//暂不处理subtitle
-			av_free_packet(pkt);
+			packet_queue_put(&subtitleq, pkt);
 		} else {
 			av_free_packet(pkt);
 		}
@@ -152,6 +155,8 @@ int CPlayCore::beginDisplay(void *ptr)
 
 int CPlayCore::thread_Display(void)
 {
+	printf(__FUNCTION__);
+
 	int got_picture, fCount,res;
 	double frame_delay;
 	AVFrame *pFrame, *pFrameYUV;
@@ -265,6 +270,8 @@ int CPlayCore::beginEvent(void *ptr)
 
 int CPlayCore::thread_Event(void)
 {
+	printf(__FUNCTION__);
+
 	SDL_Event event;
 	double remaining_time = 0.0;
 	while (bStop)
@@ -337,13 +344,16 @@ int CPlayCore::play(const char *url)
 	int res;
 
 	screen = SDL_CreateWindowFrom(wnd);
-	if (screen == 0){
+	if (screen == nullptr){
 		LogIns.FlashLog("SDL_CreateWindow - exiting:%s\n", SDL_GetError());
 		return -1;
 	}
 
+	//SDL_DestoryWindow函数会隐藏窗口，为程序可重入，需要加ShowWindow调用。
+	SDL_ShowWindow(screen);
+
 	renderer = SDL_CreateRenderer(screen, -1, 0);
-	if (renderer == NULL)   {
+	if (renderer == nullptr)   {
 		LogIns.FlashLog("SDL_CreateRenderer - exiting:%s\n", SDL_GetError());
 		return -1;
 	}
@@ -436,4 +446,11 @@ void CPlayCore::pause(void)
 		bPause = true;
 		av_read_pause(ic);
 	}
+}
+
+int CPlayCore::setMute(bool Mute)
+{
+	bMute = Mute;
+
+	return 0;
 }
