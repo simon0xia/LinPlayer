@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>610</width>
-    <height>459</height>
+    <width>658</width>
+    <height>458</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -26,12 +26,19 @@
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout_2">
     <item row="0" column="0">
-     <widget class="QGraphicsView" name="graphicsView"/>
+     <widget class="QGraphicsView" name="graphicsView">
+      <property name="minimumSize">
+       <size>
+        <width>640</width>
+        <height>360</height>
+       </size>
+      </property>
+     </widget>
     </item>
     <item row="1" column="0">
      <layout class="QHBoxLayout" name="ProgressLayout">
       <item>
-       <widget class="QPushButton" name="btn_unname">
+       <widget class="QPushButton" name="btn_reduce">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
           <horstretch>0</horstretch>
@@ -87,7 +94,7 @@ QPushButton:disabled{
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="btn_unname_2">
+       <widget class="QPushButton" name="btn_boost">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
           <horstretch>0</horstretch>
@@ -421,6 +428,18 @@ QPushButton:disabled{
       </item>
       <item>
        <widget class="QSlider" name="slider_vol">
+        <property name="minimumSize">
+         <size>
+          <width>75</width>
+          <height>12</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>75</width>
+          <height>12</height>
+         </size>
+        </property>
         <property name="maximum">
          <number>100</number>
         </property>
