@@ -18,21 +18,6 @@
       <Extensions>qrc;*</Extensions>
       <ParseFiles>false</ParseFiles>
     </Filter>
-    <Filter Include="Generated Files">
-      <UniqueIdentifier>{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}</UniqueIdentifier>
-      <Extensions>moc;h;cpp</Extensions>
-      <SourceControlFiles>False</SourceControlFiles>
-    </Filter>
-    <Filter Include="Generated Files\Debug">
-      <UniqueIdentifier>{f371f7d5-3482-4031-961c-4d2bbbbcb779}</UniqueIdentifier>
-      <Extensions>cpp;moc</Extensions>
-      <SourceControlFiles>False</SourceControlFiles>
-    </Filter>
-    <Filter Include="Generated Files\Release">
-      <UniqueIdentifier>{6501084d-78a3-45ef-83d1-3b3849d349bc}</UniqueIdentifier>
-      <Extensions>cpp;moc</Extensions>
-      <SourceControlFiles>False</SourceControlFiles>
-    </Filter>
     <Filter Include="core">
       <UniqueIdentifier>{7889cfd4-5021-4cc8-826b-49b6515722da}</UniqueIdentifier>
     </Filter>
@@ -46,15 +31,6 @@
     </ClCompile>
     <ClCompile Include="linplayer.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_linplayer.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_linplayer.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\qrc_linplayer.cpp">
-      <Filter>Generated Files</Filter>
     </ClCompile>
     <ClCompile Include="PlayCore.cpp">
       <Filter>core</Filter>
@@ -78,9 +54,6 @@
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="GeneratedFiles\ui_linplayer.h">
-      <Filter>Generated Files</Filter>
-    </ClInclude>
     <ClInclude Include="PlayCore.h">
       <Filter>core</Filter>
     </ClInclude>

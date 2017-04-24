@@ -97,7 +97,7 @@ int CPlayCore::thread_Read(void)
 // 			is->seek_req = 0;
 // 			eof = 0;
 // 		}
-
+		
 		// if the queue are full, no need to read more 
 		if (videoq.size + audioq.size + subtitleq.size > MAX_QUEUE_SIZE
 			|| ((videoq.nb_packets > MIN_FRAMES || video_stream < 0 || videoq.abort_request
@@ -168,7 +168,7 @@ int CPlayCore::thread_Display(void)
 	pFrameYUV = av_frame_alloc();
 
 	double basicDelay = av_q2d(pCodecCtx->time_base) * pCodecCtx->ticks_per_frame;
-
+	
 	//注意：因为out_buffer会组合到pFrameYUV中，释放pFrameYUV会连带释放！！后面若单独释放可能会出错。
 	out_buffer = (uint8_t *)av_malloc(avpicture_get_size(AV_PIX_FMT_YUV420P, pCodecCtx->width, pCodecCtx->height));
 	avpicture_fill((AVPicture *)pFrameYUV, out_buffer, AV_PIX_FMT_YUV420P, pCodecCtx->width, pCodecCtx->height);
@@ -313,7 +313,6 @@ int CPlayCore::stream_video_open()
 		RecordError("NormalMedia", "avcodec_find_decoder");
 		return -1;
 	}
-
 	res = avcodec_open2(pCodecCtx, pCodec, NULL);
 	if (res < 0)    {
 		RecordError("NormalMedia", "avcodec_open2", res);
