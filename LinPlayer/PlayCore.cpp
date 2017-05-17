@@ -1,6 +1,7 @@
 #include "PlayCore.h"
 #include "Log.h"
 #include <signal.h>
+#include <QDebug>
 
 extern AVPacket flush_pkt;
 
@@ -84,7 +85,7 @@ int CPlayCore::beginRead(void *ptr)
 
 int CPlayCore::thread_Read(void)
 {
-	printf(__FUNCTION__);
+	qDebug() << __FUNCTION__;
 
 	SDL_mutex *wait_mutex = NULL;
 	int ret = 0;
@@ -155,7 +156,13 @@ int CPlayCore::beginDisplay(void *ptr)
 
 int CPlayCore::thread_Display(void)
 {
-	printf(__FUNCTION__);
+	qDebug() << __FUNCTION__;
+
+	renderer = SDL_CreateRenderer(screen, -1, 0);
+	if (renderer == nullptr)   {
+		LogIns.FlashLog("SDL_CreateRenderer - exiting:%s\n", SDL_GetError());
+		return -1;
+	}
 
 	int got_picture, fCount,res;
 	double frame_delay;
@@ -202,10 +209,6 @@ int CPlayCore::thread_Display(void)
 		}
 
 		if (got_picture)	{
-// 			if (ctrl->CopyFrameFlag)	{
-// 				CopyFrame(ctrl, pFrame, pCodecCtx);
-// 				ctrl->CopyFrameFlag = 0;
-// 			}
 			sws_scale(img_convert_ctx, (const uint8_t* const*)pFrame->data, pFrame->linesize, 0, pCodecCtx->height, pFrameYUV->data, pFrameYUV->linesize);
 			SDL_UpdateTexture(sdlTexture, NULL, pFrameYUV->data[0], pFrameYUV->linesize[0]);
 			SDL_RenderClear(renderer);
@@ -270,7 +273,7 @@ int CPlayCore::beginEvent(void *ptr)
 
 int CPlayCore::thread_Event(void)
 {
-	printf(__FUNCTION__);
+	qDebug() << __FUNCTION__;
 
 	SDL_Event event;
 	double remaining_time = 0.0;
@@ -350,12 +353,6 @@ int CPlayCore::play(const char *url)
 
 	//SDL_DestoryWindow函数会隐藏窗口，为程序可重入，需要加ShowWindow调用。
 	SDL_ShowWindow(screen);
-
-	renderer = SDL_CreateRenderer(screen, -1, 0);
-	if (renderer == nullptr)   {
-		LogIns.FlashLog("SDL_CreateRenderer - exiting:%s\n", SDL_GetError());
-		return -1;
-	}
 
 	//为简化后续的处理，无论当前文件含有几种流，均初始化全部的队列。
 	packet_queue_init(&audioq);
