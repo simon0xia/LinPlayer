@@ -16,35 +16,31 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
+
+#ifndef AVUTIL_HWCONTEXT_CUDA_H
+#define AVUTIL_HWCONTEXT_CUDA_H
+
+#include <cuda.h>
+
+#include "pixfmt.h"
+
 /**
  * @file
- * @ingroup lavu
- * Utility Preprocessor macros
+ * An API-specific header for AV_HWDEVICE_TYPE_CUDA.
+ *
+ * This API supports dynamic frame pools. AVHWFramesContext.pool must return
+ * AVBufferRefs whose data pointer is a CUdeviceptr.
  */
-
-#ifndef AVUTIL_MACROS_H
-#define AVUTIL_MACROS_H
 
 /**
- * @addtogroup preproc_misc Preprocessor String Macros
- *
- * String manipulation macros
- *
- * @{
+ * This struct is allocated as AVHWDeviceContext.hwctx
  */
-
-#define AV_STRINGIFY(s)         AV_TOSTRING(s)
-#define AV_TOSTRING(s) #s
-
-#define AV_GLUE(a, b) a ## b
-#define AV_JOIN(a, b) AV_GLUE(a, b)
+typedef struct AVCUDADeviceContext {
+    CUcontext cuda_ctx;
+} AVCUDADeviceContext;
 
 /**
- * @}
+ * AVHWFramesContext.hwctx is currently not used
  */
 
-#define AV_PRAGMA(s) _Pragma(#s)
-
-#define FFALIGN(x, a) (((x)+(a)-1)&~((a)-1))
-
-#endif /* AVUTIL_MACROS_H */
+#endif /* AVUTIL_HWCONTEXT_CUDA_H */
