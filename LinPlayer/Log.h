@@ -4,6 +4,7 @@
 #include <concrt.h>
 #include <stdio.h>
 #include <stdint.h>
+#include <mutex>
 
 class CSingletonLog  
 {  
@@ -19,7 +20,7 @@ private:
 
 	FILE *fp;
 	char logName[FileNameLen];
-	concurrency::critical_section cs;
+	std::mutex _mutex;
 public:  
 	static CSingletonLog & GetInstance()  
 	{  

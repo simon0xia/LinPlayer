@@ -30,7 +30,7 @@ void CSingletonLog::FlashLog(const char *msg,...)
 		current_time->tm_mon + 1, current_time->tm_mday,
 		current_time->tm_hour, current_time->tm_min, current_time->tm_sec);
 	
-	cs.lock();
+	std::lock_guard<std::mutex> lock(_mutex);
 	fopen_s(&fp, logName, "a");
 	if (!fp)
 	{
@@ -43,5 +43,4 @@ void CSingletonLog::FlashLog(const char *msg,...)
 	fflush(fp);
 	fclose(fp);
 	fp = NULL;
-	cs.unlock();
 }
